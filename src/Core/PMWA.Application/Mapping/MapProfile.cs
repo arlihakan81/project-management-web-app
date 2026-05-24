@@ -28,7 +28,8 @@ namespace PMWA.Application.Mapping
                 .ForMember(des => des.Column, opt => opt.MapFrom(src => src.Column));
             CreateMap<CreateTaskDto, TaskItem>();
 
-            CreateMap<Column, ColumnDto>().ForMember(des => des.Board, opt => opt.MapFrom(src => src.Board));
+            CreateMap<Column, ColumnDto>().ForMember(des => des.Board, opt => opt.MapFrom(src => src.Board))
+                .ForMember(des => des.Tasks, opt => opt.MapFrom(src => src.Tasks));
 
             CreateMap<Board, BoardDto>().ForMember(des => des.Project, opt => opt.MapFrom(src => src.Project))
                 .ForMember(des => des.Columns, opt => opt.MapFrom(src => src.Columns)); 

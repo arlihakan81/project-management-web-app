@@ -1,0 +1,459 @@
+﻿@model PMWA.WebUI.Models.Boards.BoardListViewModel
+@{
+    ViewData["Title"] = "Boards";
+}
+<link href="~/vendors/swiper/swiper-bundle.min.css" rel="stylesheet">
+<div class="mb-9">
+    <div class="border-bottom border-translucent mx-n4 mx-lg-n6 px-4 px-lg-6 pb-5">
+        <div class="row justify-content-between gy-4">
+            <div class="col-auto">
+                <h2>Kanban Boards <span class="text-body-tertiary fw-semibold">(8)</span></h2>
+            </div>
+            <div class="col-auto d-flex flex-wrap gap-2">
+                <button class="btn px-4 btn-phoenix-primary d-flex"><span class="fa-solid fa-filter me-1"></span><span>Filter</span></button>
+                <select class="form-select w-auto" id="select-deals">
+                    <option>Sort by - Last visited</option>
+                    <option>Sort by - Name (A - Z)</option>
+                    <option>Sort by - Name (Z - A)</option>
+                    <option>Sort by - Category</option>
+                    <option> Sort by - Date created</option>
+                </select>
+                <div class="search-box">
+                    <form class="position-relative">
+                        <input class="form-control search-input search" type="search" placeholder="Search by name" aria-label="Search" />
+                        <span class="fas fa-search search-box-icon"></span>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-wrap gap-3 border-bottom border-translucent mx-n4 mx-lg-n6 px-4 px-lg-6 py-5">
+        <a class="btn btn-primary px-3 px-sm-5 px-md-10" href="~/apps/kanban/create-kanban-board.html"><span class="fas fa-plus me-2"></span>Create New Board</a>
+        <button class="btn btn-phoenix-primary px-3 px-sm-4 d-flex text-body"><span class="fa-solid fa-angles-down me-sm-2"></span><span class="d-none d-sm-block">Import Bulk Tasks</span></button><a class="btn btn-phoenix-primary px-3 px-sm-4 d-flex text-body" href="~/apps/calendar.html"><span class="fa-solid fa-calendar-xmark me-sm-2"></span><span class="d-none d-sm-block white-space-nowrap">Upcoming Deadlines</span></a>
+    </div>
+    <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 py-5 border-bottom border-translucent">
+        <h4>Most Recent Boards</h4>
+        <p class="mb-4">Boards you’ve visited recently. Can be private or public boards. <a href="#!"> Change preference</a></p>
+        <div class="swiper-theme-container kanban-boards-slider">
+            <div class="swiper theme-slider" data-swiper='{"slidesPerView":1,"spaceBetween":24,"speed":800,"breakpoints":{"576":{"slidesPerView":2},"1200":{"slidesPerView":3},"1540":{"slidesPerView":4}}}'>
+                <div class="swiper-wrapper">
+                    @foreach(var board in Model.Boards ?? new List<PMWA.Application.Dtos.Board.BoardDto>())
+                    {
+                        <div class="swiper-slide">
+                            <a class="text-decoration-none" href="/boards/@board.Id">
+                                <div class="card overflow-hidden bg-transparent h-100">
+                                    <div class="position-relative">
+                                        <div class="bg-info-darker" style="height: 128px"></div>
+                                        <div class="avatar-group position-absolute" style="bottom: 1rem; left: 1.5rem">
+                                            <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                                <img class="rounded-circle " src="~/assets/img/team/1.webp" alt="" />
+
+                                            </div>
+                                            <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                                <img class="rounded-circle " src="~/assets/img/team/2.webp" alt="" />
+
+                                            </div>
+                                            <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                                <img class="rounded-circle " src="~/assets/img/team/3.webp" alt="" />
+
+                                            </div>
+                                            <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                                <img class="rounded-circle " src="~/assets/img/team/4.webp" alt="" />
+
+                                            </div>
+                                            <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                                <img class="rounded-circle " src="~/assets/img/team/avatar-placeholder.webp" alt="" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body d-flex flex-column justify-content-between">
+                                        <div>
+                                            <h3 class="text-body">@board.Name</h3>
+                                            @if(board.Description != null)
+                                            {
+                                                <p class="text-body-tertiary mb-4">Daily task</p>
+                                            }
+                                        </div>
+                                        <div class="d-flex gap-4">
+                                            <h5 class="text-body"><span class="fa-solid fa-list-check text-body-tertiary me-1"></span>44</h5>
+                                            <h5 class="text-body"><span class="fa-solid fa-comment text-body-tertiary me-1"></span>12</h5>
+                                            <h5 class="text-body"><span class="fa-solid fa-calendar-xmark text-body-tertiary me-1"></span>3</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                    <div class="swiper-slide">
+                        <a class="text-decoration-none" href="~/apps/kanban/kanban.html">
+                            <div class="card overflow-hidden bg-transparent h-100">
+                                <div class="position-relative">
+                                    <img class="w-100" src="~/assets/img/kanban/board-2.png" style="height: 128px;" alt="" />
+                                    <div class="avatar-group position-absolute" style="bottom: 1rem; left: 1.5rem">
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/5.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/6.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/7.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/8.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/9.webp" alt="" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h3 class="text-body">Falcon React</h3>
+                                        <p class="text-body-tertiary mb-4">Production line</p>
+                                    </div>
+                                    <div class="d-flex gap-4">
+                                        <h5 class="text-body"><span class="fa-solid fa-list-check text-body-tertiary me-1"></span>11</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-comment text-body-tertiary me-1"></span>29</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-calendar-xmark text-body-tertiary me-1"></span>9</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a class="text-decoration-none" href="~/apps/kanban/kanban.html">
+                            <div class="card overflow-hidden bg-transparent h-100">
+                                <div class="position-relative">
+                                    <img class="w-100" src="~/assets/img/kanban/board-3.png" style="height: 128px;" alt="" />
+                                    <div class="avatar-group position-absolute" style="bottom: 1rem; left: 1.5rem">
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/10.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/11.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/12.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/13.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/avatar-placeholder.webp" alt="" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h3 class="text-body">Rebuilding</h3>
+                                        <p class="text-body-tertiary mb-4">Production line</p>
+                                    </div>
+                                    <div class="d-flex gap-4">
+                                        <h5 class="text-body"><span class="fa-solid fa-list-check text-body-tertiary me-1"></span>13</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-comment text-body-tertiary me-1"></span>11</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-calendar-xmark text-body-tertiary me-1"></span>15</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a class="text-decoration-none" href="~/apps/kanban/kanban.html">
+                            <div class="card overflow-hidden bg-transparent h-100">
+                                <div class="position-relative">
+                                    <img class="w-100" src="~/assets/img/kanban/board-4.png" style="height: 128px;" alt="" />
+                                    <div class="avatar-group position-absolute" style="bottom: 1rem; left: 1.5rem">
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/14.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/15.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/16.webp" alt="" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h3 class="text-body">ThemePro Devs</h3>
+                                        <p class="text-body-tertiary mb-4">Project Management</p>
+                                    </div>
+                                    <div class="d-flex gap-4">
+                                        <h5 class="text-body"><span class="fa-solid fa-list-check text-body-tertiary me-1"></span>103</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-comment text-body-tertiary me-1"></span>2</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-calendar-xmark text-body-tertiary me-1"></span>20</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide"><a class="btn btn-phoenix-primary d-flex flex-center h-100 w-100 fs-7 fw-semibold text-truncate" href="~/apps/kanban/create-kanban-board.html"><span class="fa-solid fa-plus-circle fs-8 me-2"></span>Create New Board</a></div>
+                </div>
+            </div>
+            <div class="swiper-nav">
+                <div class="swiper-button-next"><span class="fas fa-chevron-right fs-11"></span></div>
+                <div class="swiper-button-prev"><span class="fas fa-chevron-left fs-11"></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 py-5 border-bottom border-translucent">
+        <h4>Your Boards</h4>
+        <p class="mb-4">Boards where you are either an Admin or a Member.</p>
+        <div class="swiper-theme-container kanban-boards-slider">
+            <div class="swiper theme-slider" data-swiper='{"slidesPerView":1,"spaceBetween":24,"speed":800,"breakpoints":{"576":{"slidesPerView":2},"1200":{"slidesPerView":3},"1540":{"slidesPerView":4}}}'>
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a class="text-decoration-none" href="~/apps/kanban/kanban.html">
+                            <div class="card overflow-hidden bg-transparent h-100">
+                                <div class="position-relative">
+                                    <img class="w-100" src="~/assets/img/kanban/board-5.png" style="height: 128px;" alt="" />
+                                    <div class="avatar-group position-absolute" style="bottom: 1rem; left: 1.5rem">
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/14.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/19.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/68.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/69.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/avatar-placeholder.webp" alt="" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h3 class="text-body">Post Tracking</h3>
+                                        <p class="text-body-tertiary mb-4">Deals Tracking</p>
+                                    </div>
+                                    <div class="d-flex gap-4">
+                                        <h5 class="text-body"><span class="fa-solid fa-list-check text-body-tertiary me-1"></span>142</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-comment text-body-tertiary me-1"></span>21</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-calendar-xmark text-body-tertiary me-1"></span>100</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a class="text-decoration-none" href="~/apps/kanban/kanban.html">
+                            <div class="card overflow-hidden bg-transparent h-100">
+                                <div class="position-relative">
+                                    <img class="w-100" src="~/assets/img/kanban/board-6.png" style="height: 128px;" alt="" />
+                                    <div class="avatar-group position-absolute" style="bottom: 1rem; left: 1.5rem">
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/17.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/18.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/19.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/20.webp" alt="" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h3 class="text-body">Automation Team</h3>
+                                        <p class="text-body-tertiary mb-4">Remote team</p>
+                                    </div>
+                                    <div class="d-flex gap-4">
+                                        <h5 class="text-body"><span class="fa-solid fa-list-check text-body-tertiary me-1"></span>6</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-comment text-body-tertiary me-1"></span>761</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-calendar-xmark text-body-tertiary me-1"></span>2</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a class="text-decoration-none" href="~/apps/kanban/kanban.html">
+                            <div class="card overflow-hidden bg-transparent h-100">
+                                <div class="position-relative">
+                                    <div class="bg-body-secondary" style="height: 128px"></div>
+                                    <div class="avatar-group position-absolute" style="bottom: 1rem; left: 1.5rem">
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/21.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/19.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/22.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/23.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/avatar-placeholder.webp" alt="" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h3 class="text-body">Phoenix Kanban</h3>
+                                        <p class="text-body-tertiary mb-4">Project Management</p>
+                                    </div>
+                                    <div class="d-flex gap-4">
+                                        <h5 class="text-body"><span class="fa-solid fa-list-check text-body-tertiary me-1"></span>43</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-comment text-body-tertiary me-1"></span>22</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-calendar-xmark text-body-tertiary me-1"></span>17</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a class="text-decoration-none" href="~/apps/kanban/kanban.html">
+                            <div class="card overflow-hidden bg-transparent h-100">
+                                <div class="position-relative">
+                                    <img class="w-100" src="~/assets/img/kanban/board-8.png" style="height: 128px;" alt="" />
+                                    <div class="avatar-group position-absolute" style="bottom: 1rem; left: 1.5rem">
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/24.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/19.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/avatar-placeholder.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/68.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/69.webp" alt="" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h3 class="text-body">Reconciling Backlogs</h3>
+                                        <p class="text-body-tertiary mb-4">Meeting Agenda</p>
+                                    </div>
+                                    <div class="d-flex gap-4">
+                                        <h5 class="text-body"><span class="fa-solid fa-list-check text-body-tertiary me-1"></span>23</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-comment text-body-tertiary me-1"></span>111</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-calendar-xmark text-body-tertiary me-1"></span>23</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide"><a class="btn btn-phoenix-primary d-flex flex-center h-100 w-100 fs-7 fw-semibold text-truncate" href="~/apps/kanban/create-kanban-board.html"><span class="fa-solid fa-plus-circle fs-8 me-2"></span>Create New Board</a></div>
+                </div>
+            </div>
+            <div class="swiper-nav">
+                <div class="swiper-button-next"><span class="fas fa-chevron-right fs-11"></span></div>
+                <div class="swiper-button-prev"><span class="fas fa-chevron-left fs-11"></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 py-5 border-bottom border-translucent">
+        <h4>Private Boards</h4>
+        <p class="mb-4">Your eyes only</p>
+        <div class="swiper-theme-container kanban-boards-slider">
+            <div class="swiper theme-slider" data-swiper='{"slidesPerView":1,"spaceBetween":24,"speed":800,"breakpoints":{"576":{"slidesPerView":2},"1200":{"slidesPerView":3},"1540":{"slidesPerView":4}}}'>
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a class="text-decoration-none" href="~/apps/kanban/kanban.html">
+                            <div class="card overflow-hidden bg-transparent h-100">
+                                <div class="position-relative">
+                                    <img class="w-100" src="~/assets/img/kanban/board-9.png" style="height: 128px;" alt="" />
+                                    <div class="avatar-group position-absolute" style="bottom: 1rem; left: 1.5rem">
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/30.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/31.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/32.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/33.webp" alt="" />
+
+                                        </div>
+                                        <div class="avatar avatar-m  border border-light-subtle rounded-circle">
+                                            <img class="rounded-circle " src="~/assets/img/team/34.webp" alt="" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <div>
+                                        <h3 class="text-body">Inventory update</h3>
+                                        <p class="text-body-tertiary mb-4">Shipping Process</p>
+                                    </div>
+                                    <div class="d-flex gap-4">
+                                        <h5 class="text-body"><span class="fa-solid fa-list-check text-body-tertiary me-1"></span>68</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-comment text-body-tertiary me-1"></span>31</h5>
+                                        <h5 class="text-body"><span class="fa-solid fa-calendar-xmark text-body-tertiary me-1"></span>14</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide"><a class="btn btn-phoenix-primary d-flex flex-center h-100 w-100 fs-7 fw-semibold text-truncate" href="~/apps/kanban/create-kanban-board.html"><span class="fa-solid fa-plus-circle fs-8 me-2"></span>Create New Board</a></div>
+                </div>
+            </div>
+            <div class="swiper-nav">
+                <div class="swiper-button-next"><span class="fas fa-chevron-right fs-11"></span></div>
+                <div class="swiper-button-prev"><span class="fas fa-chevron-left fs-11"></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-phoenix-primary mt-4"><span class="fa-solid fa-box-archive me-2"></span>Open Archive</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/vendors/swiper/swiper-bundle.min.js"></script>
+}

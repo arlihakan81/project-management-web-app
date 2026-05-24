@@ -44,19 +44,19 @@ namespace PMWA.Infrastructure.Contexts
             modelBuilder.Entity<TaskItem>().HasOne(t => t.CreatedBy).WithMany().HasForeignKey(t => t.CreatedById).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<TaskItem>().HasOne(t => t.ModifiedBy).WithMany().HasForeignKey(t => t.ModifiedById);
 
-            modelBuilder.Entity<Role>().HasData(
-                [
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Admin"
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "User"
-                    }
-                ]);
+            //modelBuilder.Entity<Role>().HasData(
+            //    [
+            //        new()
+            //        {
+            //            Id = Guid.NewGuid(),
+            //            Name = "Admin"
+            //        },
+            //        new()
+            //        {
+            //            Id = Guid.NewGuid(),
+            //            Name = "User"
+            //        }
+            //    ]);
         }
 
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

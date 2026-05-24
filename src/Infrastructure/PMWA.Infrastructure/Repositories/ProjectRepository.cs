@@ -41,8 +41,8 @@ namespace PMWA.Infrastructure.Repositories
 
         public async Task<bool> IsTitleUniqueAsync(string title, Guid? projectId = null)
         {
-            return projectId is null ? !await _context.Projects.AnyAsync(p => p.Title != title) :
-                !await _context.Projects.AnyAsync(p => p.Title != title && p.Id != projectId.Value);
+            return projectId is null ? !await _context.Projects.AnyAsync(p => p.Title == title) :
+                !await _context.Projects.AnyAsync(p => p.Title == title && p.Id != projectId.Value);
         }
     }
 }

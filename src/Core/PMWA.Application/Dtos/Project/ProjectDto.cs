@@ -18,5 +18,7 @@ namespace PMWA.Application.Dtos.Project
 
         public virtual UserDto Owner { get; set; }
 
+        public virtual ICollection<UserDto>? Assignees { get; set; }
+
     }
 }

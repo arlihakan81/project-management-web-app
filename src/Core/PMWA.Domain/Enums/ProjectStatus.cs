@@ -2,10 +2,10 @@
 {
     public enum ProjectStatus
     {
-        NotStarted,
-        InProgress,
+        Inactive,
         Completed,
-        OnHold,
-        Cancelled
+        OnGoing,
+        Cancelled,
+        Critical
     }
 }

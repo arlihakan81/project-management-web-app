@@ -9,15 +9,19 @@ namespace PMWA.API.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [Authorize]
-    public class ProjectsController(IProjectService projectService) : ControllerBase
+    public class ProjectsController(IProjectService projectService, IBoardService boardService) : ControllerBase
     {
         private readonly IProjectService _projectService = projectService;
+        private readonly IBoardService _boardService = boardService;
 
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _projectService.GetAllAsync());
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id) => Ok(await _projectService.GetByIdAsync(id));
+
+        [HttpGet("{id}/boards")]
+        public async Task<IActionResult> GetBoards(Guid id) => Ok(await _boardService.GetByProjectIdAsync(id));
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProjectDto createProjectDto)
