@@ -19,7 +19,7 @@
         public virtual Organization Organization { get; set; }
         public virtual ICollection<Project>? Projects { get; set; }
 
-
+        public virtual ICollection<TaskItem>? AssignedTasks { get; set; }
 
 
 

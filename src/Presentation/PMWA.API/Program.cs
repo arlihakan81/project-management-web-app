@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using PMWA.Application.Interfaces;
 using PMWA.Application.Mapping;
@@ -7,6 +8,9 @@ using PMWA.Infrastructure.Repositories;
 using PMWA.Infrastructure.Services;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Reflection;
+using PMWA.Application.Validators.Project;
+using PMWA.Application.Validators.Task;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,6 +83,11 @@ builder.Services.AddAutoMapper(config => {
     config.AddProfile<MapProfile>();
 },
 typeof(MapProfile));
+
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProjectDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateTaskDtoValidator>();
+
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -88,6 +97,9 @@ builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 
 
 var app = builder.Build();

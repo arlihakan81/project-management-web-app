@@ -22,8 +22,15 @@ namespace PMWA.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProjectDto createProjectDto)
         {
-            await _projectService.CreateAsync(createProjectDto);
-            return Created();
+            try
+            {
+                await _projectService.CreateAsync(createProjectDto);
+                return Created();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]

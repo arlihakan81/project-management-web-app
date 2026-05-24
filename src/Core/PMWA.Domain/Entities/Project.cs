@@ -16,7 +16,7 @@ namespace PMWA.Domain.Entities
 
         // Navigation properties
         public virtual User Owner { get; set; }
-
+        public virtual ICollection<Board>? Boards { get; set; }
 
 
 

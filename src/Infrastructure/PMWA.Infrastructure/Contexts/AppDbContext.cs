@@ -13,6 +13,9 @@ namespace PMWA.Infrastructure.Contexts
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Board> Boards { get; set; }
+        public DbSet<Column> Columns { get; set; }
+        public DbSet<TaskItem> Tasks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -23,10 +26,23 @@ namespace PMWA.Infrastructure.Contexts
         {
             modelBuilder.Entity<User>().HasQueryFilter(u => u.OrganizationId == _organizationService.GetCurrentOrganizationId() && !u.IsDeleted);
             modelBuilder.Entity<Project>().HasQueryFilter(p => p.OrganizationId == _organizationService.GetCurrentOrganizationId() && !p.IsDeleted && !p.IsArchived);
+            modelBuilder.Entity<Board>().HasQueryFilter(b => b.OrganizationId == _organizationService.GetCurrentOrganizationId() && !b.IsDeleted && !b.IsArchived && !b.Project.IsArchived);
+            modelBuilder.Entity<Column>().HasQueryFilter(c => c.OrganizationId == _organizationService.GetCurrentOrganizationId() && !c.IsDeleted && !c.Board.IsArchived && !c.Board.Project.IsArchived);   
+            modelBuilder.Entity<TaskItem>().HasQueryFilter(t => t.OrganizationId == _organizationService.GetCurrentOrganizationId() && !t.IsDeleted && !t.Column.Board.IsArchived && !t.Column.Board.Project.IsArchived);
 
             modelBuilder.Entity<Project>().HasOne(p => p.Owner).WithMany(u => u.Projects).HasForeignKey(p => p.OwnerId);
             modelBuilder.Entity<Project>().HasOne(p => p.CreatedBy).WithMany().HasForeignKey(p => p.CreatedById).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Project>().HasOne(p => p.ModifiedBy).WithMany().HasForeignKey(p => p.ModifiedById);
+
+            modelBuilder.Entity<Board>().HasOne(b => b.CreatedBy).WithMany().HasForeignKey(b => b.CreatedById).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Board>().HasOne(b => b.ModifiedBy).WithMany().HasForeignKey(b => b.ModifiedById);
+
+            modelBuilder.Entity<Column>().HasOne(c => c.CreatedBy).WithMany().HasForeignKey(c => c.CreatedById).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Column>().HasOne(c => c.ModifiedBy).WithMany().HasForeignKey(c => c.ModifiedById);
+
+            modelBuilder.Entity<TaskItem>().HasOne(t => t.User).WithMany(u => u.AssignedTasks).HasForeignKey(t => t.AssigneeId);
+            modelBuilder.Entity<TaskItem>().HasOne(t => t.CreatedBy).WithMany().HasForeignKey(t => t.CreatedById).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<TaskItem>().HasOne(t => t.ModifiedBy).WithMany().HasForeignKey(t => t.ModifiedById);
 
             modelBuilder.Entity<Role>().HasData(
                 [
