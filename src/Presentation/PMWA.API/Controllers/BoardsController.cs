@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PMWA.Application.Dtos.Column;
 using PMWA.Application.Interfaces;
 
 namespace PMWA.API.Controllers
@@ -18,9 +19,12 @@ namespace PMWA.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id) => Ok(await _boardService.GetByIdAsync(id));
 
-
-
-
+        [HttpPost("{id}/column")]
+        public async Task<IActionResult> AddColumn(Guid id, [FromBody] CreateColumnDto createColumnDto)
+        {
+            await _boardService.AddColumnAsync(id, createColumnDto.Name);
+            return NoContent();
+        }
 
 
 

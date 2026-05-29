@@ -14,12 +14,13 @@ namespace PMWA.Domain.Entities
         public Enums.TaskStatus Status { get; set; }
         public Enums.Category? Category { get; set; }
         public Enums.Priority Priority { get; set; }        
-        public Guid? AssigneeId { get; set; }
+        public Guid AssigneeId { get; set; }
 
         public Guid ColumnId { get; set; }
         public virtual Column Column { get; set; }
-        public virtual User? User { get; set; }
+        public virtual User User { get; set; }
 
+        public virtual ICollection<TaskAttachment>? Attachments { get; set; }
 
     }
 }

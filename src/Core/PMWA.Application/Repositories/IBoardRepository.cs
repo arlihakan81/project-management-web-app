@@ -5,5 +5,6 @@ namespace PMWA.Application.Repositories
     public interface IBoardRepository : IGenericRepository<Board>
     {
         Task<IEnumerable<Board>?> GetByProjectIdAsync(Guid projectId);
+        Task AddColumnAsync(Guid boardId, string name);
     }
 }

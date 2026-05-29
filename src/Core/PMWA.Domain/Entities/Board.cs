@@ -11,6 +11,6 @@ namespace PMWA.Domain.Entities
         public Guid ProjectId { get; set; }
         public bool IsArchived { get; set; }
         public virtual Project Project { get; set; } = null!;
-        public ICollection<Column>? Columns { get; set; }
+        public virtual ICollection<Column>? Columns { get; set; }
     }
 }

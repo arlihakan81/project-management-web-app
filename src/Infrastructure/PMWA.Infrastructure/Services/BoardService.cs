@@ -10,6 +10,11 @@ namespace PMWA.Infrastructure.Services
         private readonly IBoardRepository _boardRepository = boardRepository;
         private readonly IMapper _mapper = mapper;
 
+        public async Task AddColumnAsync(Guid boardId, string name)
+        {
+            await _boardRepository.AddColumnAsync(boardId, name);
+        }
+
         public async Task<IEnumerable<BoardDto>?> GetAllAsync()
         {
             var boards = await _boardRepository.GetAllAsync();

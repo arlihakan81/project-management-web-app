@@ -43,8 +43,7 @@ namespace PMWA.WebUI.Controllers
             {
                 Board = board,
                 Boards = await client.GetFromJsonAsync<List<BoardDto>>($"{apiUrl}/projects/{board!.Project.Id}/boards"),
-                Users = []
-                //await client.GetFromJsonAsync<List<PMWA.Application.Dtos.User.UserDto>>($"{apiUrl}/projects/{board.Project.Id}/users")
+                Users = await client.GetFromJsonAsync<List<PMWA.Application.Dtos.User.UserDto>>($"{apiUrl}/users")
             };
             return View(viewModel);
         }
@@ -80,6 +79,23 @@ namespace PMWA.WebUI.Controllers
                 var error = await response.Content.ReadAsStringAsync();
                 ModelState.AddModelError(string.Empty, error);
                 return RedirectToAction("Details", new { id = viewModel.Board!.Id });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddColumn(BoardDetailsViewModel viewModel)
+        {
+            AddToken();
+            var response = await client.PostAsJsonAsync($"{apiUrl}/boards/{viewModel.CreateColumnDto.BoardId}/column", viewModel.CreateColumnDto);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Details", new { id = viewModel.CreateColumnDto.BoardId });
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                ModelState.AddModelError(string.Empty, error);
+                return RedirectToAction("Details", new { id = viewModel.CreateColumnDto!.BoardId });
             }
         }
 

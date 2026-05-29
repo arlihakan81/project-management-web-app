@@ -16,23 +16,27 @@ namespace PMWA.Infrastructure.Contexts
         public DbSet<Board> Boards { get; set; }
         public DbSet<Column> Columns { get; set; }
         public DbSet<TaskItem> Tasks { get; set; }
+        public DbSet<ProjectMember> ProjectMembers { get; set; }
+        public DbSet<TaskAttachment> TaskAttachments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=PMWADb; Trusted_Connection=True; TrustServerCertificate=True");
+            optionsBuilder.UseLazyLoadingProxies().UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=PMWADb; Trusted_Connection=True; TrustServerCertificate=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasQueryFilter(u => u.OrganizationId == _organizationService.GetCurrentOrganizationId() && !u.IsDeleted);
             modelBuilder.Entity<Project>().HasQueryFilter(p => p.OrganizationId == _organizationService.GetCurrentOrganizationId() && !p.IsDeleted && !p.IsArchived);
-            modelBuilder.Entity<Board>().HasQueryFilter(b => b.OrganizationId == _organizationService.GetCurrentOrganizationId() && !b.IsDeleted && !b.IsArchived && !b.Project.IsArchived);
+            modelBuilder.Entity<Board>().HasQueryFilter(b => b.OrganizationId == _organizationService.GetCurrentOrganizationId() && !b.IsDeleted && !b.IsArchived && !b.Project.IsArchived && !b.Project.IsDeleted);
             modelBuilder.Entity<Column>().HasQueryFilter(c => c.OrganizationId == _organizationService.GetCurrentOrganizationId() && !c.IsDeleted && !c.Board.IsArchived && !c.Board.Project.IsArchived);   
             modelBuilder.Entity<TaskItem>().HasQueryFilter(t => t.OrganizationId == _organizationService.GetCurrentOrganizationId() && !t.IsDeleted && !t.Column.Board.IsArchived && !t.Column.Board.Project.IsArchived);
+            modelBuilder.Entity<TaskAttachment>().HasQueryFilter(ta => ta.OrganizationId == _organizationService.GetCurrentOrganizationId() && !ta.IsDeleted && !ta.Task.IsDeleted && !ta.Task.Column.Board.IsDeleted && !ta.Task.Column.Board.IsArchived && !ta.Task.Column.Board.Project.IsDeleted && !ta.Task.Column.Board.Project.IsArchived);
 
-            modelBuilder.Entity<Project>().HasOne(p => p.Owner).WithMany(u => u.Projects).HasForeignKey(p => p.OwnerId);
+            modelBuilder.Entity<Project>().HasOne(p => p.Owner).WithMany(u => u.OwnedProjects).HasForeignKey(p => p.OwnerId);
             modelBuilder.Entity<Project>().HasOne(p => p.CreatedBy).WithMany().HasForeignKey(p => p.CreatedById).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Project>().HasOne(p => p.ModifiedBy).WithMany().HasForeignKey(p => p.ModifiedById);
+            modelBuilder.Entity<Project>().HasMany(p => p.Members).WithMany(m => m.JoinedProjects).UsingEntity<ProjectMember>();
 
             modelBuilder.Entity<Board>().HasOne(b => b.CreatedBy).WithMany().HasForeignKey(b => b.CreatedById).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Board>().HasOne(b => b.ModifiedBy).WithMany().HasForeignKey(b => b.ModifiedById);
@@ -44,6 +48,10 @@ namespace PMWA.Infrastructure.Contexts
             modelBuilder.Entity<TaskItem>().HasOne(t => t.CreatedBy).WithMany().HasForeignKey(t => t.CreatedById).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<TaskItem>().HasOne(t => t.ModifiedBy).WithMany().HasForeignKey(t => t.ModifiedById);
 
+            modelBuilder.Entity<TaskAttachment>().HasOne(ta => ta.CreatedBy).WithMany().HasForeignKey(ta => ta.CreatedById).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<TaskAttachment>().HasOne(ta => ta.ModifiedBy).WithMany().HasForeignKey(ta => ta.ModifiedById);
+
+            
             //modelBuilder.Entity<Role>().HasData(
             //    [
             //        new()

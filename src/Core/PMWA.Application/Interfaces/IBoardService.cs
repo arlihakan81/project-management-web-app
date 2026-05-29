@@ -8,7 +8,7 @@ namespace PMWA.Application.Interfaces
         Task<BoardDto?> GetByIdAsync(Guid id);
         Task<IEnumerable<BoardDto>?> GetByProjectIdAsync(Guid projectId);
 
-
+        Task AddColumnAsync(Guid boardId, string name);
 
     }
 }

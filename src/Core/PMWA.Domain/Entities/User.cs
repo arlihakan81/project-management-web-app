@@ -17,7 +17,8 @@
         // Navigation property
         public virtual Role Role { get; set; }
         public virtual Organization Organization { get; set; }
-        public virtual ICollection<Project>? Projects { get; set; }
+        public virtual ICollection<Project>? OwnedProjects { get; set; }
+        public virtual ICollection<Project>? JoinedProjects { get; set; }
 
         public virtual ICollection<TaskItem>? AssignedTasks { get; set; }
 

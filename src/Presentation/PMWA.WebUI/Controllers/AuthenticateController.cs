@@ -57,7 +57,7 @@ namespace PMWA.WebUI.Controllers
 
             var claims = new List<Claim>
             {
-                new ("avatar", user.Avatar ?? string.Empty),
+                new ("avatar", user.Avatar ?? "avatar.webp"),
                 new (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new (ClaimTypes.Name, user.Name),
                 new (ClaimTypes.Email, user.Email),
